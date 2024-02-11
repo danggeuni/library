@@ -67,18 +67,19 @@ public class BookRepository {
         jdbcTemplate.update("UPDATE BOOK_RENTAL SET RETURN_DATE = ? WHERE BOOK_ID = ? AND RETURN_DATE IS NULL", LocalDateTime.now(), bookId);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public List<BookEntity> paging(String searchQuery, int pageSize, int pageNumber) {
         int offset = (pageNumber - 1) * pageSize;
 
-        List<BookEntity> result;
-
         if (searchQuery == null) {
-            result = jdbcTemplate.query("SELECT * FROM BOOK LIMIT ? OFFSET ?", new Object[]{pageSize, offset}, bookEntityRowMapper());
+            return jdbcTemplate.query("SELECT * FROM BOOK LIMIT ? OFFSET ?",
+                    new Object[]{pageSize, offset}, bookEntityRowMapper());
         } else {
-            result = jdbcTemplate.query("SELECT * FROM BOOK WHERE NAME LIKE ? LIMIT ? OFFSET ?", new Object[]{"%" + searchQuery + "%", pageSize, offset}, bookEntityRowMapper());
+            return jdbcTemplate.query("SELECT * FROM BOOK LIMIT ? OFFSET ? WHERE NAME LIKE ?",
+                    new Object[]{pageSize, offset, "%" + searchQuery + "%"}, bookEntityRowMapper());
         }
 
-        return result;
     }
 
     public int getTotalPage(String searchQuery, int pageSize) {
