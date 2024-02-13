@@ -19,7 +19,9 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public String showBookPage(@RequestParam(required = false) String searchQuery, @RequestParam(defaultValue = "20") int pageSize, @RequestParam(defaultValue = "1") int pageNumber, Model model){
+    public String showBookPage(@RequestParam(required = false) String searchQuery,
+                               @RequestParam(defaultValue = "20") int pageSize,
+                               @RequestParam(defaultValue = "1") int pageNumber, Model model){
 
         PaginatedResult<BookEntity> result = bookService.paging(searchQuery, pageSize, pageNumber);
 

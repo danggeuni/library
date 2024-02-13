@@ -76,8 +76,8 @@ public class BookRepository {
             return jdbcTemplate.query("SELECT * FROM BOOK LIMIT ? OFFSET ?",
                     new Object[]{pageSize, offset}, bookEntityRowMapper());
         } else {
-            return jdbcTemplate.query("SELECT * FROM BOOK LIMIT ? OFFSET ? WHERE NAME LIKE ?",
-                    new Object[]{pageSize, offset, "%" + searchQuery + "%"}, bookEntityRowMapper());
+            return jdbcTemplate.query("SELECT * FROM BOOK WHERE NAME LIKE ? LIMIT ? OFFSET ? ",
+                    new Object[]{"%" + searchQuery + "%", pageSize, offset}, bookEntityRowMapper());
         }
 
     }
